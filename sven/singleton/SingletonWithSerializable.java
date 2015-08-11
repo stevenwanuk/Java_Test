@@ -64,32 +64,30 @@ public class SingletonWithSerializable implements Serializable {
 		
 		
 		//Write
-		ObjectOutputStream os = null;
-		try { 
-			os = new ObjectOutputStream(new FileOutputStream("SingletonWithSerializable"));
+		try (
+				FileOutputStream fs = new FileOutputStream("SingletonWithSerializable");
+				ObjectOutputStream os = new ObjectOutputStream(fs)
+				
+				) {
+			
 			os.writeObject(SingletonWithSerializable.getInstance());
-			os.close();
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		} finally {
-			
-			//TODO release....
-		}
 		
+		} catch (Exception e) {
+			
+			
+		}
+
 		//Read
-		ObjectInputStream  is = null;
-		try { 
-			is = new ObjectInputStream (new FileInputStream("SingletonWithSerializable"));
+		try (
+				FileInputStream fs = new FileInputStream("SingletonWithSerializable");
+				ObjectInputStream is = new ObjectInputStream (fs)
+				){ 
+			
 			is.readObject();
-			is.close();
 		} catch (Exception e) {
 			
 			e.printStackTrace();
-		} finally {
-			
-			//TODO release...
-		}
+		} 
 		
 		
 	}
